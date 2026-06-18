@@ -2,6 +2,7 @@
 #include <format>
 #include <string>
 #include "../include/grafo.hpp"
+#include "../include/fila.hpp"
 
 grafo::grafo()
 {
@@ -204,3 +205,98 @@ void grafo::visita_dfs(tipoVertice u,
 
     std::cout << std::format("Visita: {:2d}; Tempo termino: {:5d}; Preto\n", u, t[u]);
 }
+
+void grafo::busca_largura()
+{
+    tipoVertice u;
+    int dist[MAX_NUM_VERTICES];
+    tipoCor cor[MAX_NUM_VERTICES];
+    int antecessor[MAX_NUM_VERTICES];
+
+    for(u = 0; u < this->num_vertices; u++){
+        cor[u] = branco;
+        dist[u] = 0;
+        antecessor[u] = -1;
+    }
+
+    for(u = 0; u < this->num_vertices; u++){
+        if(cor[u] == branco){
+            visita_bfs(u, dist, cor, antecessor);
+        }
+    }
+}
+
+void grafo::visita_bfs(tipoVertice u, int dist[], tipoCor cor[], int antecessor[])
+{
+    tipoVertice v;
+    int aux;
+    bool fim_lista;
+    tipoPeso peso;
+    tipoItem item;
+    fila* f;
+
+    cor[u] = cinza;
+    dist[u] = std::numeric_limits<int>::infinity();
+
+    f = new fila();
+    item.v = u;
+    f->enqueue(item);
+
+    std::cout << std::format("Visita origem {:6d}; Cor: cinza F: ", u);
+    f->imprimir_fila();
+
+    while(!f->vazia()){
+        item = f->dequeue();
+        u = item.v;
+
+        if(!lista_adjacentes_vazia(u)){
+            aux = primeiro_lista_adjacencia(u);
+            fim_lista = false;
+
+            while(!fim_lista){
+                v = prox_adjacencia(u, peso, aux, fim_lista);
+
+                if(cor[v] == branco){
+                    cor[v] = cinza;
+                    dist[v] = dist[u] + 1;
+                    antecessor[v] = u;
+                    item.v = v;
+                    item.peso = peso;
+
+                    f->enqueue(item);
+                }
+            }
+        }
+
+        cor[u] = preto;
+        std::cout << std::format("Visita: {:2d}; Dist: {:2d}; Cor: preto F: ", u, dist[u]);
+        f->imprimir_fila();
+    }
+}
+
+grafo* grafo::grafo_transposto()
+{
+    tipoVertice v, u;
+    tipoPeso peso;
+    int aux;
+    bool fim_lista;
+    grafo* outro;
+
+    outro = new grafo(this->num_vertices);
+    outro->num_arestas = this->num_arestas;
+
+    for(v = 0; v < this->num_vertices; v++){
+        if(!lista_adjacentes_vazia(v)){
+            aux = primeiro_lista_adjacencia(v);
+            fim_lista = false;
+
+            while(!fim_lista){
+                u = prox_adjacencia(v, peso, aux, fim_lista);
+                outro->insere_aresta(u, v, peso);
+            }
+        }
+    }
+
+    return outro;
+}
+
