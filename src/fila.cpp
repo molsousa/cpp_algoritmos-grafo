@@ -53,7 +53,6 @@ tipoItem fila::dequeue()
 
 void fila::imprimir_fila()
 {
-    // debug
     for(lista* aux{inicio}; aux != nullptr; aux = aux->prox){
         std::cout << "|" << aux->item.v << "|->";
     }

@@ -23,8 +23,8 @@ int main()
         std::cout << "Insere v1---v2---peso: ";
         std::cin >> v1 >> v2 >> peso;
 
-        g->insere_aresta(v1, v2, peso);
-        g->insere_aresta(v2, v1, peso);
+        g->insere_aresta(v1, v2, peso, n_orientado);
+        g->insere_aresta(v2, v1, peso, n_orientado);
     }
 
     g->imprime_grafo();

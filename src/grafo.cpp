@@ -38,19 +38,25 @@ void grafo::set_num_aresta(int num_arestas)
     this->num_arestas = num_arestas;
 }
 
-void grafo::insere_aresta(tipoVertice v1, tipoVertice v2, tipoPeso peso)
+void grafo::insere_aresta(tipoVertice v1,
+                          tipoVertice v2,
+                          tipoPeso peso,
+                          tipoGrafo tipo)
 {
+    // TODO: corrigir arestas repetidas em não orientado.
+    // TODO: corrigir inserção de pesos em arestas.
     this->mat[v1][v2] = peso;
 
     this->num_arestas++;
 }
 
-bool grafo::existe_aresta(tipoVertice v1, tipoVertice v2)
+bool grafo::existe_aresta(tipoVertice v1,
+                          tipoVertice v2) const
 {
     return (this->mat[v1][v2] > 0);
 }
 
-bool grafo::lista_adjacentes_vazia(tipoVertice v)
+bool grafo::lista_adjacentes_vazia(tipoVertice v) const
 {
     int aux {0};
     bool lista_vazia {true};
@@ -108,7 +114,8 @@ tipoVertice grafo::prox_adjacencia(tipoVertice v,
     return adj;
 }
 
-tipoPeso grafo::retira_aresta(tipoVertice v1, tipoVertice v2)
+tipoPeso grafo::retira_aresta(tipoVertice v1,
+                              tipoVertice v2)
 {
     tipoPeso peso {};
 
@@ -226,7 +233,10 @@ void grafo::busca_largura()
     }
 }
 
-void grafo::visita_bfs(tipoVertice u, int dist[], tipoCor cor[], int antecessor[])
+void grafo::visita_bfs(tipoVertice u,
+                       int dist[],
+                       tipoCor cor[],
+                       int antecessor[])
 {
     tipoVertice v;
     int aux;
@@ -292,11 +302,16 @@ grafo* grafo::grafo_transposto()
 
             while(!fim_lista){
                 u = prox_adjacencia(v, peso, aux, fim_lista);
-                outro->insere_aresta(u, v, peso);
+                outro->insere_aresta(u, v, peso, n_orientado);
             }
         }
     }
 
     return outro;
+}
+
+void grafo::prim(tipoVertice& raiz)
+{
+    // TODO: implementar algoritmo prim
 }
 

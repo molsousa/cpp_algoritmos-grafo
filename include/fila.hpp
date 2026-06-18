@@ -5,7 +5,7 @@
 
 /**
  * @brief
- * Estrutura para armazenar tipo de item em lista
+ * Estrutura para armazenar tipo de item em lista.
  */
 typedef struct{
     tipoVertice v;
@@ -15,7 +15,7 @@ typedef struct{
 /**
  * @brief
  * Classe para criação de uma fila dinâmica.
- * Essencial para determinados algoritmos em grafo
+ * Essencial para determinados algoritmos em grafo.
  */
 class fila
 {
@@ -58,7 +58,7 @@ public:
 
     /**
      * @brief Função membro para inserir elemento na fila.
-     * @param Item a ser inserido.
+     * @param item: Item a ser inserido.
      */
     void enqueue(tipoItem);
 
